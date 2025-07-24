@@ -1,12 +1,10 @@
 <template>
-  <MovieCard 
-    title="Sample Movie"
-    date-added="June 26, 2025"
-  />
+  <HomePage />
 </template>
 
 <script setup>
-  import MovieCard from './components/MovieCard.vue'
+  // import MovieCard from './components/MovieCard.vue';
+  import HomePage from './pages/HomePage.vue';
 </script>
 
 <style lang='scss' scoped>

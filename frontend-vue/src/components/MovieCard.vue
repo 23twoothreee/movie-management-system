@@ -55,6 +55,7 @@ export default {
         color: var(--white);
         transition: transform 0.3s ease;
         cursor: pointer;
+        max-height: 400px;
     }
 
     .movie-card:hover {
@@ -64,6 +65,8 @@ export default {
     .movie-poster {
         width: 100%;
         height: auto;
+        height: 300px; 
+        object-fit: cover;
         display: block;
     }
 

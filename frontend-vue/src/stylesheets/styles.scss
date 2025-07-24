@@ -6,7 +6,20 @@
   --black: #000;
   --secondary: #aaa;
 
+  //PAGE COLORS
+  --page-background: #121212;
+
   // CARD COLORS
   --card-background: #141414;
   --card-info-background: #1e1e1e;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
 }
