@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <h2 class="title">Movie List</h2>
-      <BaseButton>Add a movie</BaseButton>
+      <BaseButton @click="showModal = true">Add a movie</BaseButton>
     </div>
     <div class="movie-list">
       <template v-if="movies.length > 0">
@@ -10,102 +10,78 @@
           v-for="movie in movies"
           :key="movie.id"
           :title="movie.title"
+          :description="movie.description"
           :date-added="movie.dateAdded"
           :poster-url="movie.posterUrl"
+          :video-file="movie.sampleVideoUrl"
+          @click="openDetails(movie)"
         />
       </template>
       <div v-else class="empty-state">
         <i class="mdi mdi-movie-open-off-outline"></i>
         <p>No movies found.</p>
-        <BaseButton>Add a movie</BaseButton>
+        <BaseButton @click="showAddPanel = true">Add a movie</BaseButton>
       </div>
     </div>
+    <BaseModal v-model="showModal">
+      <MovieFormModal @close="showModal = false" />
+    </BaseModal>
   </div>
 </template>
 
 <script>
-import MovieCard from '@/components/MovieCard.vue'
 import BaseButton from '../components/BaseButton.vue';
+import BaseModal from '@/components/BaseModal.vue'
+import MovieCard from '@/components/MovieCard.vue'
+import MovieFormModal from '@/components/MovieFormModal.vue'
 
 export default {
   name: 'MovieList',
 
   components: {
+    BaseButton,
+    BaseModal,
     MovieCard,
-    BaseButton
+    MovieFormModal
   },
 
   data() {
     return {
+      showModal: false,   
       movies: [
         {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
+          id: 3,
+          title: 'Interstellar',
+          dateAdded: '2014-11-07',
+          posterUrl: 'https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg',
+          sampleVideoUrl: 'https://samplelib.com/lib/preview/mp4/sample-5s.mp4',
+          description: 'A group of explorers travel through a wormhole in space in an attempt to ensure humanity’s survival.'
         },
         {
           id: 1,
           title: 'Inception',
           dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
-        },
-        {
-          id: 1,
-          title: 'Inception',
-          dateAdded: '2021-07-16',
-          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg'
+          posterUrl: 'https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_SY679_.jpg',
+          sampleVideoUrl: 'https://samplelib.com/lib/preview/mp4/sample-10s.mp4',
+          description: 'A skilled thief who steals corporate secrets through dream-sharing technology is offered a chance to erase his past.'
         },
         {
           id: 2,
           title: 'The Matrix',
           dateAdded: '1999-03-31',
-          posterUrl: 'https://m.media-amazon.com/images/I/51EG732BV3L.jpg'
-        },
-        {
-          id: 3,
-          title: 'Interstellar',
-          dateAdded: '2014-11-07',
-          posterUrl: 'https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg'
+          posterUrl: 'https://m.media-amazon.com/images/I/51EG732BV3L.jpg',
+          sampleVideoUrl: 'https://samplelib.com/lib/preview/mp4/sample-3s.mp4',
+          description: 'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.'
         }
       ]
     }
+  },
+
+  methods: {
+    openDetails(movie) {
+      this.selectedMovie = movie;
+      this.showDetails = true;
+    },
   }
 }
 </script>

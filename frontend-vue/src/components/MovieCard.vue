@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-card" @click="openDetails" title="Click here to view more details">
+  <div class="movie-card" @click="showDetails = true" title="Click here to view more details">
     <button title="Delete movie" class="delete-button" @click.stop="deleteMovie">
       <i class="mdi mdi-trash-can-outline"></i>
     </button>
@@ -12,12 +12,36 @@
       <h3 class="movie-title" :title="title">{{ title }}</h3>
       <p class="movie-date">Added on {{ formattedDate() }}</p>
     </div>
+    <BaseModal v-model="showDetails">
+    <MovieDetailsModal
+        :title="title"
+        :description="description"
+        :poster-url="posterUrl"
+        :video-file="videoFile"
+        @close="showDetails = false"
+    />
+    </BaseModal>
   </div>
 </template>
 
+
 <script>
+import BaseModal from './BaseModal.vue';
+import MovieDetailsModal from './MovieDetailsModal.vue';
+
 export default {
     name: 'MovieCard',
+
+    components: {
+        BaseModal,
+        MovieDetailsModal,
+    },
+
+    data() {
+        return {
+            showDetails: false
+        }
+    },
 
     props: {
         title: {
@@ -31,7 +55,15 @@ export default {
         posterUrl: {
             type: String,
             default: 'https://s.studiobinder.com/wp-content/uploads/2019/06/Movie-Poster-Template-Movie-Credits-StudioBinder.jpg'
-        }
+        },
+        description: {
+            type: String,
+            required: false
+        },
+        videoFile: {
+            type: String,
+            required: false
+        },
     },
 
     methods: {
@@ -44,8 +76,8 @@ export default {
             })
         },
 
-        openDetails() {
-            this.$emit('open-details')
+        handleDetails() {
+            this.showDetails = true;
         },
 
         deleteMovie() {
