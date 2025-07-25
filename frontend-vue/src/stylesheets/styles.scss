@@ -12,6 +12,16 @@
   // CARD COLORS
   --card-background: #141414;
   --card-info-background: #1e1e1e;
+
+   // BUTTON COLORS
+  --btn-primary: #e50914;
+  --btn-primary-hover: #9f1a20;
+  --btn-secondary: #aaa;
+  --btn-secondary-hover: #999;
+}
+
+html {
+  background-color: var(--page-background);
 }
 
 body {
@@ -22,4 +32,9 @@ body {
 @mixin flex-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
 }

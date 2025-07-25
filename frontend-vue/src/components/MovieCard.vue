@@ -1,15 +1,18 @@
 <template>
-    <div class="movie-card">
-        <img
-            :src="posterUrl"
-            alt="Movie Poster"
-            class="movie-poster"
-        />
-        <div class="movie-info">
-            <h3 class="movie-title">{{ title }}</h3>
-            <p class="movie-date">Added on {{ formattedDate() }}</p>
-        </div>
+  <div class="movie-card" @click="openDetails" title="Click here to view more details">
+    <button title="Delete movie" class="delete-button" @click.stop="deleteMovie">
+      <i class="mdi mdi-trash-can-outline"></i>
+    </button>
+    <img
+      :src="posterUrl"
+      alt="Movie Poster"
+      class="movie-poster"
+    />
+    <div class="movie-info">
+      <h3 class="movie-title" :title="title">{{ title }}</h3>
+      <p class="movie-date">Added on {{ formattedDate() }}</p>
     </div>
+  </div>
 </template>
 
 <script>
@@ -39,6 +42,14 @@ export default {
                 month: 'short',
                 day: 'numeric'
             })
+        },
+
+        openDetails() {
+            this.$emit('open-details')
+        },
+
+        deleteMovie() {
+            this.$emit('delete')
         }
     }
 };
@@ -48,6 +59,7 @@ export default {
     @use '@/stylesheets/styles.scss';
     
     .movie-card {
+        position: relative; // required for absolute positioning of the button
         width: 200px;
         border-radius: 8px;
         overflow: hidden;
@@ -56,10 +68,23 @@ export default {
         transition: transform 0.3s ease;
         cursor: pointer;
         max-height: 400px;
-    }
 
-    .movie-card:hover {
-        transform: scale(1.05);
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+            backdrop-filter: blur(0.6px);
+            z-index: 1;
+            pointer-events: none;
+        }
     }
 
     .movie-poster {
@@ -85,5 +110,29 @@ export default {
         font-size: 14px;
         color: var(--secondary);
         margin-top: 4px;
+    }
+
+    .delete-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--black);
+        border: none;
+        color: var(--white);
+        border-radius: 50%;
+        padding: 6px;
+        cursor: pointer;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            font-size: 18px;
+        }
+
+        &:hover {
+            background: var(--btn-primary);
+        }
     }
 </style>

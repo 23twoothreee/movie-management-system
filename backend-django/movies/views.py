@@ -4,3 +4,6 @@ from .models import Movie
 from .serializers import MovieSerializer
 
 # Create your views here.
+class MovieListCreateView(generics.ListCreateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
