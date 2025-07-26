@@ -1,6 +1,6 @@
 <template>
   <div class="movie-card" @click="showDetails = true" title="Click here to view more details">
-    <button title="Delete movie" class="delete-button" @click.stop="deleteMovie">
+    <button title="Delete movie" class="delete-button" @click.stop="deleteMovie()">
       <i class="mdi mdi-trash-can-outline"></i>
     </button>
     <img
@@ -44,6 +44,11 @@ export default {
     },
 
     props: {
+        id: {
+            type: Number,
+            required: true
+        },
+
         title: {
             type: String,
             required: true
