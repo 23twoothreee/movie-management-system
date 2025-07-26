@@ -20,7 +20,7 @@
       <div v-else class="empty-state">
         <i class="mdi mdi-movie-open-off-outline"></i>
         <p>No movies found.</p>
-        <BaseButton @click="showAddPanel = true">Add a movie</BaseButton>
+        <BaseButton @click="showModal = true">Add a movie</BaseButton>
       </div>
     </div>
     <BaseModal v-model="showModal">
