@@ -27,9 +27,9 @@ class MovieDetailView(APIView):
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def patch(self, request, pk):
         movie = get_object_or_404(Movie, pk=pk)
-        serializer = MovieSerializer(movie, data=request.data, partial=True)  # partial=True allows partial updates
+        serializer = MovieSerializer(movie, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

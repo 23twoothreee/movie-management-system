@@ -19,7 +19,7 @@
       </label>
 
       <label>
-        Poster URL:
+        Poster URL (Optional):
         <input
           type="text"
           v-model="posterUrl"

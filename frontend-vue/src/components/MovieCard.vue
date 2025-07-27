@@ -18,7 +18,7 @@
         :description="description"
         :poster-url="posterUrl"
         :video-file="videoFile"
-        @update-movie="handleUpdateMovie"
+        @update-movie="handleMovieUpdate($event)"
         @close="showDetails = false"
     />
     </BaseModal>
@@ -92,22 +92,18 @@ export default {
             this.$emit('delete')
         },
 
-        async handleUpdateMovie(updatedData) {
-            // Use FormData if videoFile is a File object
-            const formData = new FormData();
-            formData.append('title', updatedData.title);
-            formData.append('description', updatedData.description);
-            formData.append('posterUrl', updatedData.posterUrl);
-            if (updatedData.videoFile instanceof File) {
-            formData.append('videoFile', updatedData.videoFile);
+        async handleMovieUpdate(formData) {
+            try {
+                console.trace();
+                const res = await api.patch('movies/', formData);
+                console.log('Edit success:', res.data);
+                this.fetchMovies();
+            } catch (error) {
+                console.error('Edit failed:', error.response?.data || error.message);
+                alert('Failed to edit movie. Check console.');
+                console.log('inside handle movie submit');
             }
-
-            await api.put(`movies/${this.movie.id}/`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-            });
-
-            // Refresh data or close modal
-        }
+        },
     }
 };
 </script>

@@ -58,6 +58,7 @@ export default {
       isLoading: false,
       showModal: false,   
       movies: [
+        //Uncomment for dummy data
         // {
         //   id: 3,
         //   title: 'Interstellar',
@@ -107,7 +108,7 @@ export default {
           description: movie.description,
           dateAdded: movie.date_added,
           posterUrl: movie.poster_url,
-          sampleVideoUrl: movie.video_file, // full URL from Django
+          sampleVideoUrl: movie.video_file,
         }));
       } catch (error) {
         console.error('Failed to fetch movies:', error);
@@ -127,6 +128,19 @@ export default {
       } catch (error) {
         console.error('Upload failed:', error.response?.data || error.message);
         alert('Failed to upload movie. Check console.');
+        console.log('inside handle movie submit');
+      }
+    },
+
+     async handleMovieUpdate(formData) {
+      try {
+        console.trace();
+        const res = await api.put('movies/', formData);
+        console.log('Edit success:', res.data);
+        this.fetchMovies();
+      } catch (error) {
+        console.error('Edit failed:', error.response?.data || error.message);
+        alert('Failed toe edit movie. Check console.');
         console.log('inside handle movie submit');
       }
     },
