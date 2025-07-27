@@ -62,6 +62,7 @@ export default {
         this.videoFile = file;
       }
     },
+
     submitForm() {
       const formData = new FormData();
       formData.append('title', this.title);
@@ -69,7 +70,8 @@ export default {
       if (this.posterUrl) formData.append('poster_url', this.posterUrl);
       if (this.videoFile) formData.append('video_file', this.videoFile);
 
-      this.$emit('submit', formData);
+      // console.log(formData, 'xxxxx');
+      this.$emit('send-form', formData);
       this.$emit('close');
     }
   }

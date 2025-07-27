@@ -63,7 +63,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
   'http://localhost:5173'
 ] 
-ROOT_URLCONF = 'backend_django.urls'
+ROOT_URLCONF = 'backend-django.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend_django.wsgi.application'
+WSGI_APPLICATION = 'backend-django.wsgi.application'
 
 
 # Database

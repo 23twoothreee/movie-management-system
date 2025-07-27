@@ -28,7 +28,7 @@
     </div>
     <BaseModal v-model="showModal">
       <MovieFormModal 
-        @submit="handleMovieSubmit"
+        @send-form="handleMovieSubmit($event)"
         @close="showModal = false" 
       />
     </BaseModal>
@@ -120,11 +120,8 @@ export default {
 
     async handleMovieSubmit(formData) {
       try {
-        const res = await api.post('movies/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
+        console.trace();
+        const res = await api.post('movies/', formData);
         console.log('Upload success:', res.data);
         this.fetchMovies();
       } catch (error) {

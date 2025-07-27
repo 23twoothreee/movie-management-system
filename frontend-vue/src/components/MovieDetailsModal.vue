@@ -1,5 +1,6 @@
 <template>
   <div class="details-modal">
+    <div v-if="!isEditing" class="details-modal">
     <header class="details-header">
       <h2>{{ title }}</h2>
       <button class="close" @click="$emit('close')">
@@ -9,11 +10,48 @@
     <p v-if="description" class="description">{{ description }}</p>
     <img :src="posterUrl" alt="Poster" class="poster-preview" />
 
-    <video v-if="videoFile" controls class="video-preview">
-      <source :src="videoFile" type="video/mp4" />
+    <video controls class="video-preview">
+      <source :src="`http://127.0.0.1:8000${videoFile}`" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    <BaseButton class="primary edit" @click="emitEdit">Edit movie</BaseButton>
+    <BaseButton class="primary edit">Edit movie</BaseButton>
+    </div>
+    <!-- <>
+    <div v-else class="form-wrapper">
+    <header class="form-header">
+      <h3 class="title">Add a Movie</h3>
+      <button class="close" @click="$emit('close')">
+        <i class="mdi mdi-close"></i>
+      </button>
+    </header>
+
+    <form class="form" @submit.prevent="submitForm">
+      <label>
+        Title:
+        <input type="text" v-model="title" required placeholder="Enter movie title" />
+      </label>
+
+      <label>
+        Description:
+        <textarea v-model="description" required placeholder="Enter movie description" rows="4"></textarea>
+      </label>
+
+      <label>
+        Poster URL:
+        <input
+          type="text"
+          v-model="posterUrl"
+          placeholder="https://example.com/poster.jpg"
+        />
+      </label>
+
+      <label>
+        Upload Video:
+        <input type="file" @change="handleFileUpload" accept="video/*" required />
+      </label>
+
+      <BaseButton type="submit">Add movie</BaseButton>
+    </form> -->
   </div>
 </template>
 
@@ -27,14 +65,18 @@ export default {
     title: String,
     description: String,
     posterUrl: String,
-    videoFile: {
-      type: String,
-    },
+    videoFile: String,
   },
 
   components: {
     BaseButton
   },
+
+  data() {
+    return {
+      isEditing: false,
+    }
+  }
 };
 </script>
 
@@ -52,7 +94,6 @@ export default {
 
   .poster-preview {
     width: 100%;
-    max-height: 300px;
     object-fit: cover;
     border-radius: 8px;
   }
