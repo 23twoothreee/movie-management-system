@@ -85,9 +85,5 @@ npm run dev
 
 ---
 
-## Features
+## Demo Video
 
-* Movie list with poster
-* Upload video files
-* View movie details with video player
-* Edit & delete movies

@@ -80,7 +80,7 @@ export default {
         title: this.title,
         description: this.description,
         posterUrl: this.posterUrl,
-        videoFile: this.videoFile,
+        videoFile: null,
       },
     }
   },
@@ -94,16 +94,15 @@ export default {
     },
 
     async submitForm() {
-      const updatedMovie = {
-        title: this.form.title,
-        description: this.form.description,
-        posterUrl: this.form.posterUrl,
-        videoFile: this.form.videoFile,
-      };
+      const formData = new FormData();
+      formData.append('title', this.form.title);
+      formData.append('description', this.form.description);
+      if (this.form.posterUrl) formData.append('poster_url', this.form.posterUrl);
+      if (this.form.videoFile) formData.append('video_file', this.form.videoFile);
 
-      this.$emit('update-movie', updatedMovie);
-      this.isEditing = false;
-    },
+      this.$emit('update-movie', formData);
+      this.$emit('close');
+    }
   }
 };
 </script>
