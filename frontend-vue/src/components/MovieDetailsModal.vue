@@ -14,44 +14,45 @@
       <source :src="`http://127.0.0.1:8000${videoFile}`" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    <BaseButton class="primary edit">Edit movie</BaseButton>
+    <BaseButton class="primary edit" @click="isEditing = true">Edit movie</BaseButton>
     </div>
-    <!-- <>
+    
     <div v-else class="form-wrapper">
-    <header class="form-header">
-      <h3 class="title">Add a Movie</h3>
-      <button class="close" @click="$emit('close')">
-        <i class="mdi mdi-close"></i>
-      </button>
-    </header>
+      <header class="form-header">
+        <h3 class="title">Editing Movie</h3>
+        <button class="close" @click="$emit('close')">
+          <i class="mdi mdi-close"></i>
+        </button>
+      </header>
 
-    <form class="form" @submit.prevent="submitForm">
-      <label>
-        Title:
-        <input type="text" v-model="title" required placeholder="Enter movie title" />
-      </label>
+      <form class="form" @submit.prevent="submitForm">
+        <label>
+          Title:
+          <input type="text" v-model="form.title" required placeholder="Enter movie title" />
+        </label>
 
-      <label>
-        Description:
-        <textarea v-model="description" required placeholder="Enter movie description" rows="4"></textarea>
-      </label>
+        <label>
+          Description:
+          <textarea v-model="form.description" required placeholder="Enter movie description" rows="4"></textarea>
+        </label>
 
-      <label>
-        Poster URL:
-        <input
-          type="text"
-          v-model="posterUrl"
-          placeholder="https://example.com/poster.jpg"
-        />
-      </label>
+        <label>
+          Poster URL (Optional):
+          <input
+            type="text"
+            v-model="form.posterUrl"
+            placeholder="https://example.com/poster.jpg"
+          />
+        </label>
 
-      <label>
-        Upload Video:
-        <input type="file" @change="handleFileUpload" accept="video/*" required />
-      </label>
+        <label>
+          Upload Video:
+          <input type="file" @change="handleFileUpload" accept="video/*" required />
+        </label>
 
-      <BaseButton type="submit">Add movie</BaseButton>
-    </form> -->
+        <BaseButton type="submit">Update movie</BaseButton>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -75,7 +76,34 @@ export default {
   data() {
     return {
       isEditing: false,
+      form: {
+        title: this.title,
+        description: this.description,
+        posterUrl: this.posterUrl,
+        videoFile: this.videoFile,
+      },
     }
+  },
+
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.form.videoFile = file;
+      }
+    },
+
+    async submitForm() {
+      const updatedMovie = {
+        title: this.form.title,
+        description: this.form.description,
+        posterUrl: this.form.posterUrl,
+        videoFile: this.form.videoFile,
+      };
+
+      this.$emit('update-movie', updatedMovie);
+      this.isEditing = false;
+    },
   }
 };
 </script>
@@ -109,6 +137,44 @@ export default {
   }
 
   .close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    i {
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: var(--btn-primary);
+    }
+  }
+
+  .edit {
+    align-self: flex-end;
+    width: fit-content
+  }
+  
+   .form-wrapper {
+    @include flex-column;
+    color: white;
+    gap: 20px;
+  }
+
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .close {
       background: none;
       border: none;
       color: var(--white);
@@ -123,9 +189,46 @@ export default {
         color: var(--btn-primary);
       }
     }
+  }
 
-    .edit {
-      align-self: flex-end;
-      width: fit-content
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95rem;
+      color: var(--white);
+
+      input,
+      textarea {
+        margin-top: 6px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid #333;
+        background-color: #1c1c1c;
+        color: var(--white);
+        resize: vertical;
+
+        &:focus {
+          outline: none;
+          border-color: var(--btn-primary);
+          box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+        }
+      }
+
+      input[type='file'] {
+        padding: 0;
+        background-color: transparent;
+        color: var(--white);
+      }
     }
+
+    button {
+      margin-top: 12px;
+      align-self: flex-end;
+    }
+  }
 </style>

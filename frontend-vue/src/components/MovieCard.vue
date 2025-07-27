@@ -18,6 +18,7 @@
         :description="description"
         :poster-url="posterUrl"
         :video-file="videoFile"
+        @update-movie="handleUpdateMovie"
         @close="showDetails = false"
     />
     </BaseModal>
@@ -26,6 +27,8 @@
 
 
 <script>
+import api from '@/api/axios.js'; 
+
 import BaseModal from './BaseModal.vue';
 import MovieDetailsModal from './MovieDetailsModal.vue';
 
@@ -87,6 +90,23 @@ export default {
 
         deleteMovie() {
             this.$emit('delete')
+        },
+
+        async handleUpdateMovie(updatedData) {
+            // Use FormData if videoFile is a File object
+            const formData = new FormData();
+            formData.append('title', updatedData.title);
+            formData.append('description', updatedData.description);
+            formData.append('posterUrl', updatedData.posterUrl);
+            if (updatedData.videoFile instanceof File) {
+            formData.append('videoFile', updatedData.videoFile);
+            }
+
+            await api.put(`movies/${this.movie.id}/`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            // Refresh data or close modal
         }
     }
 };
