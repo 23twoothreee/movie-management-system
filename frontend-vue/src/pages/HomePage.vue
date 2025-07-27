@@ -15,6 +15,7 @@
           :date-added="movie.dateAdded"
           :poster-url="movie.posterUrl"
           :video-file="movie.sampleVideoUrl"
+          @fetch-movie="fetchMovies(id)"
           @delete="deleteMovie(movie.id)" 
           @click="openDetails(movie)"
         />
@@ -36,7 +37,8 @@
 </template>
 
 <script>
-import api from '@/api/axios.js'; 
+import api from '@/api/axios.js';
+import mixins from '@/mixins/mixins.js';
 
 import BaseButton from '@/components/BaseButton.vue';
 import BaseModal from '@/components/BaseModal.vue'
@@ -52,6 +54,8 @@ export default {
     MovieCard,
     MovieFormModal
   },
+
+  mixins: [mixins],
 
   data() {
     return {
@@ -93,7 +97,6 @@ export default {
 
   methods: {
     openDetails(movie) {
-      console.log(movie);
       this.fetchMovies({id: movie.id});
       this.selectedMovie = movie;
       this.showDetails = true;
@@ -103,8 +106,12 @@ export default {
     async fetchMovies({ id } = {}) {
       this.isLoading = true;
       try {
-        const res = await api.get(`movies/` + (id ?? '')/);
-        this.movies = res.data.map(movie => ({
+          const url = id ? `movies/${id}/` : 'movies/';
+          const res = await api.get(url);
+
+          const movies = Array.isArray(res.data) ? res.data : [res.data];
+
+          this.movies = movies.map(movie => ({
           id: movie.id,
           title: movie.title,
           description: movie.description,
@@ -113,11 +120,11 @@ export default {
           sampleVideoUrl: movie.video_file,
         }));
       } catch (error) {
-        console.error('Failed to fetch movies:', error);
-        alert('Failed to fetch movies. Check console.');
+          console.error('Failed to fetch movies:', error);
+          alert('Failed to fetch movies. Check console.');
       } finally {
-        this.isLoading = false;
-        console.log('Inside fetch Movies');
+          this.isLoading = false;
+          console.log('Inside fetch Movies');
       }
     },
 

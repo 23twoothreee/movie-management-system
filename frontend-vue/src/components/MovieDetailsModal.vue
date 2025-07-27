@@ -104,19 +104,6 @@ export default {
       this.$emit('update-movie', updatedMovie);
       this.isEditing = false;
     },
-
-       async handleMovieUpdate(formData) {
-      try {
-        console.trace();
-        const res = await api.put('movies/', formData);
-        console.log('Edit success:', res.data);
-        this.fetchMovies();
-      } catch (error) {
-        console.error('Edit failed:', error.response?.data || error.message);
-        alert('Failed toe edit movie. Check console.');
-        console.log('inside handle movie submit');
-      }
-    },
   }
 };
 </script>
