@@ -47,7 +47,7 @@
 
         <label>
           Upload Video:
-          <input type="file" @change="handleFileUpload" accept="video/*" required />
+          <input type="file" @change="handleFileUpload" accept="video/*" />
         </label>
 
         <BaseButton type="submit">Update movie</BaseButton>

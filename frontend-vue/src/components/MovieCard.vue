@@ -95,6 +95,7 @@ export default {
         async handleMovieUpdate(formData) {
             try {
                 console.trace();
+                console.log(formData);
                 const res = await api.patch(`movies/${this.id}/`, formData);
                 console.log('Edit success:', res.data);
                 this.$emit('fetch-movie', this.id)

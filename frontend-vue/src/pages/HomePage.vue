@@ -38,7 +38,6 @@
 
 <script>
 import api from '@/api/axios.js';
-import mixins from '@/mixins/mixins.js';
 
 import BaseButton from '@/components/BaseButton.vue';
 import BaseModal from '@/components/BaseModal.vue'
@@ -54,8 +53,6 @@ export default {
     MovieCard,
     MovieFormModal
   },
-
-  mixins: [mixins],
 
   data() {
     return {
@@ -109,16 +106,35 @@ export default {
           const url = id ? `movies/${id}/` : 'movies/';
           const res = await api.get(url);
 
-          const movies = Array.isArray(res.data) ? res.data : [res.data];
+          if (Array.isArray(res.data)) {
+            this.movies = res.data.map(movie => ({
+              id: movie.id,
+              title: movie.title,
+              description: movie.description,
+              dateAdded: movie.date_added,
+              posterUrl: movie.poster_url,
+              sampleVideoUrl: movie.video_file,
+            }));
+          } else {
+            const movie = this.movies.find(m => m.id === res.data.id);
+            const newData =  {
+                title: res.data.title,
+                description: res.data.description,
+                dateAdded: res.data.date_added,
+                posterUrl: res.data.poster_url,
+                sampleVideoUrl: res.data.video_file,
+            }
 
-          this.movies = movies.map(movie => ({
-          id: movie.id,
-          title: movie.title,
-          description: movie.description,
-          dateAdded: movie.date_added,
-          posterUrl: movie.poster_url,
-          sampleVideoUrl: movie.video_file,
-        }));
+            if (movie) {
+              Object.assign(movie, newData);
+            } else {
+              this.movies.push({
+                id: res.data.id,
+                ...newData
+              });
+            }
+          }
+
       } catch (error) {
           console.error('Failed to fetch movies:', error);
           alert('Failed to fetch movies. Check console.');

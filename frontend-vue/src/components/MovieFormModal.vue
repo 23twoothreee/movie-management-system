@@ -70,7 +70,6 @@ export default {
       if (this.posterUrl) formData.append('poster_url', this.posterUrl);
       if (this.videoFile) formData.append('video_file', this.videoFile);
 
-      // console.log(formData, 'xxxxx');
       this.$emit('send-form', formData);
       this.$emit('close');
     }
