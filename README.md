@@ -21,7 +21,6 @@ movie-management-application/
 
 * Python 3.8+
 * pip
-* virtualenv (optional but recommended)
 
 ### Frontend (Node.js)
 
