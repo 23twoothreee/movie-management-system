@@ -49,9 +49,11 @@ cd backend-django
 ```
 
 ### 1. Install necessary packages
+```bash
 pip install Django
 pip install django-cors-headers
 pip install djangorestframework
+```
 
 ### 2. Set up Django project
 
