@@ -95,14 +95,12 @@ export default {
         async handleMovieUpdate(formData) {
             try {
                 console.trace();
-                console.log(formData);
                 const res = await api.patch(`movies/${this.id}/`, formData);
                 console.log('Edit success:', res.data);
                 this.$emit('fetch-movie', this.id)
             } catch (error) {
                 console.error('Edit failed:', error.response?.data || error.message);
                 alert('Failed to edit movie. Check console.');
-                console.log('inside handle movie submit');
             }
         },
     }

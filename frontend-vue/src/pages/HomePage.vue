@@ -140,7 +140,6 @@ export default {
           alert('Failed to fetch movies. Check console.');
       } finally {
           this.isLoading = false;
-          console.log('Inside fetch Movies');
       }
     },
 
@@ -153,7 +152,6 @@ export default {
       } catch (error) {
         console.error('Upload failed:', error.response?.data || error.message);
         alert('Failed to upload movie. Check console.');
-        console.log('inside handle movie submit');
       }
     },
 
