@@ -24,7 +24,7 @@ movie-management-application/
 
 ### Frontend (Node.js)
 
-* Node.js 16+
+* Node.js 20+
 * npm
 
 ---
@@ -48,14 +48,21 @@ cd movie-management-system
 cd backend-django
 ```
 
-### 1. Set up Django project
+### 1. Install necessary packages
+pip install Django
+pip install django-cors-headers
+pip install djangorestframework
+
+### 2. Set up Django project
+
+If needed:
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 2. Run the development server
+### 3. Run the development server
 
 ```bash
 python manage.py runserver
@@ -77,6 +84,14 @@ cd frontend-vue
 npm install
 ```
 
+If the nvm version is not 20+:
+
+```bash
+nvm install 20
+nvm use 20
+```
+
+
 ### 2. Run the development server
 
 ```bash
@@ -87,3 +102,4 @@ npm run dev
 
 ## Demo Video
 
+- [Demo video](https://drive.google.com/file/d/1BN786CkY0gN_yvOGa-iuKeq9AzEwRvLm/view?usp=drive_link)
